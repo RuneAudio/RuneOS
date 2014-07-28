@@ -1,0 +1,19 @@
+post_install()
+{
+# remove man pages
+rm /usr/share/man/hattrib.1.gz
+rm /usr/share/man/hcd.1.gz
+rm /usr/share/man/hcopy.1.gz
+rm /usr/share/man/hdel.1.gz
+rm /usr/share/man/hdir.1.gz
+rm /usr/share/man/hformat.1.gz
+rm /usr/share/man/hfsutils.1.gz
+rm /usr/share/man/hls.1.gz
+rm /usr/share/man/hmkdir.1.gz
+rm /usr/share/man/hmount.1.gz
+rm /usr/share/man/hpwd.1.gz
+rm /usr/share/man/hrename.1.gz
+rm /usr/share/man/hrmdir.1.gz
+rm /usr/share/man/humount.1.gz
+rm /usr/share/man/hvol.1.gz
+}

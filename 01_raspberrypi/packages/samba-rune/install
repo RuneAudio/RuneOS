@@ -1,0 +1,5 @@
+post_install() {
+	ln -s /etc/samba/smb-prod.conf /etc/samba/smb.conf || true
+	rm -rf /usr/share/samba/swat || true
+	rm -rf /usr/share/samba/man || true
+}

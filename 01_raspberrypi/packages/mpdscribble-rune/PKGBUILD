@@ -1,0 +1,34 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+# Based on original work ok: AkiraYB <brunoyb!outlook,com>
+
+pkgname=mpdscribble-rune
+pkglabel=mpdscribble
+pkgver=0.22
+pkgrel=6
+pkgdesc='An mpd client which submits track info to last.fm'
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url='http://mpd.wikia.com/wiki/Client:Mpdscribble'
+license=('GPL2')
+depends=('curl' 'glib2' 'libmpdclient')
+#install="${pkglabel}.install"
+changelog="${pkglabel}.changelog"
+source=("http://www.musicpd.org/download/mpdscribble/${pkgver}/${pkglabel}-${pkgver}.tar.bz2"
+        "${pkglabel}.service")
+sha256sums=('1cde2b5f8c70f0e3e6f059d01bf0b0f2eac2b29fbcd14b01a8a5103e603feb41'
+            '0ef108567cf9c47dd382e9655237d0d05cb7c2b57e530187e9e513810842f334')
+
+build()
+{
+	cd "${srcdir}/${pkglabel}-${pkgver}"
+	./configure --prefix=/usr --sysconfdir=/etc --enable-debug
+	make
+}
+
+package()
+{
+	cd "${srcdir}/${pkglabel}-${pkgver}"
+	install -Dm 644 "doc/mpdscribble.conf" "${pkgdir}/etc/mpdscribble.conf"
+	install -Dm 644 "${srcdir}/${pkglabel}.service" \
+	                "${pkgdir}/usr/lib/systemd/system/mpdscribble.service"
+	make DESTDIR="$pkgdir" install
+}

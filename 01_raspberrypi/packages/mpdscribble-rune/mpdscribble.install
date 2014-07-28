@@ -1,0 +1,9 @@
+post_install()
+{
+cat << EOF
+For system-wide config, edit /etc/mpdscribble.conf with your information.
+
+For per-user config, copy /usr/share/doc/mpdscribble/mpdscribble.conf to
+~/.mpdscribble/mpdscribble.conf and make the needed changes.
+EOF
+}

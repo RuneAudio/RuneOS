@@ -1,0 +1,45 @@
+# Contributor: Markus M. May <triplem@javafreedom.org>
+
+pkgname=upmpdcli
+pkgver=0.5
+pkgrel=1
+pkgdesc="an UPnP front-end to the Music Player Daemon"
+license="GPL"
+depends=('libupnp')
+builddepends=(autoconf)
+arch=(i686 x86_64)
+
+source=("http://github.com/medoc92/upmpdcli/archive/v0.5.tar.gz")
+md5sums=('0e6623503f18eb7230aef8334084af4e')
+
+backup=()
+url="http://www.lesbonscomptes.com/upmpdcli/"
+
+
+build() {
+
+  cd ${srcdir}/${pkgname}-${pkgver}
+
+  # this is temporary - should be fixed in the git repo
+  chmod u+x autogen.sh
+
+  msg "Run autogen.sh"
+  ./autogen.sh
+
+  msg "Run configure"
+  ./configure --prefix=/usr
+
+  msg "Run make"
+  make
+}
+
+package() {
+
+  msg "Make install"
+  cd ${srcdir}/${pkgname}-${pkgver}
+
+  msg "pkgdir: ${pkgdir}"
+  make DESTDIR="${pkgdir}/" install
+
+}
+# :mode=shellscript:

@@ -1,0 +1,66 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" (C) Copyright 2014 Jean-Francois Dockes <dockes@y.dockes.com>,
+.\"
+.TH UPMPDCLI 1 "February 10, 2014"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.SH NAME
+upmpdcli \- UPnP Media Renderer front-end to MPD, the Music Player Daemon
+.SH SYNOPSIS
+.B upmpdcli
+.RI [ options ] " files" ...
+.SH DESCRIPTION
+.PP
+\fBupmpdcli\fP is a program which should be run permanently (typically as a
+daemon, or started upon logging in), and acts as an UPnP Media Renderer,
+using the Music Player Daemon, \fBmpd\fP, for actually playing the
+music. This allows integrating the high quality and widely ported MPD
+inside an UPnP-based music network, typically with a remote running on a
+tablet or phone.
+.SH OPTIONS
+This program uses short options. A summary of options is included below.
+.TP
+.B \-h\fR \fIhost\fP
+Define the host machine on which \fBmpd\fP runs.
+.TP
+.B \-f\fR \fIfriendly_name\fP
+Set the name which will be displayed by controllers for this instance after
+they search the network. 
+.TP
+.B \-p\fR \fIport\fP
+Define the IP port used by \fBmpd\fP.
+.TP
+.B \-q\fR \fI0|1\fP
+Decide if we own the MPD queue (-q 1) or not (-q 0). We own it by default,
+and clear it fearlessly.
+.TP
+.B \-d\fR \fIlogfilename\fP
+Send debug/trace messages to \fIlogfilename\fP.
+.TP
+.B \-l\fR \fIlevel\fP
+Set the log verbosity (0-4).
+.TP
+.B \-D\fR
+Daemonize (fork and run in background). Using -D for this is the reverse
+from usual convention, but the authors found it better to avoid surprising
+naïve users with an unexpected disparition of the program...
+.TP
+.B \-i\fR \fIiface\fP
+Define the network interface to use for UPnP.
+.TP
+.B \-O\fR \f1/0\fP
+Start the OpenHome ohMedia services (esp. PlayList), or not.
+.TP
+.B \-P\fR \fIport\fP
+Define the IP port to use for UPnP.
+.TP
+.B \-c\fR \fIconfigfile\fP
+Use the configuration from \fIconfigfile\fP. The configuration file has a
+simple \fIname = value\fP format and can set the same values as the command
+line options (with a lower priority). The parameter names are
+\fImpdhost\fP, \fImpdport\fP, \fIfriendlyname\fP, \fIlogfilename\fP,
+\fIloglevel\fP, \fIupnpiface\fP, \fIupnpport\fP. The configuration file can
+also be used to set the MPD password (\fImpdpassword\fP), and the UPnP IP
+address (instead of interface name, \fIupnpip\fP).
+.SH SEE ALSO
+.BR mpd (1),

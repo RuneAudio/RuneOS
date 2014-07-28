@@ -1,0 +1,101 @@
+= Upmpdcli: MPD UPnP Renderer Front-End
+
+
+*upmpdcli* is an UPnP Media Renderer front-end to *MPD*, the Music Player
+Daemon. The last version supports both pure UPnP and the OpenHome ohMedia
+services.
+
+[[upmpdcli.security]]
+== Security
+
+*upmpdcli* is not audited for security issues, and, as far as I
+know, it may be full of exploitable bugs. Do not run it on an
+Internet-facing host.
+
+[[upmpdcli.config]]
+== Configuration
+
+See the man page for command line details. In most situations, *upmpdcli*
+will be run as follows:
+
+    upmpdcli -D -c /etc/upmpdcli.conf
+
+The `-D` option tells *upmpdcli* to fork and run in background. The `-c`
+option specifies a configuration file.
+
+The configuration file has a simple `name = value` format.
+
+The configuration parameters can be set from the command line, a
+configuration file, or the environment in this order of priority. It would
+be rather confusing to use a mix of methods, so you should probably chose
+one. 
+
+All parameters have defaults, and a typical installation needs no
+modification of the configuration file. If several instances of *upmpdcli*
+run on the same network, it may be useful to give them distinct names
+(_friendlyname_ parameter). The other parameters are only useful in special
+situations.
+
+The following parameters can be set:
+
+|========================
+|What|Command line|Environment|Config variable
+|Configuration file name|-c config|$UPMPD_CONFIG|
+|Host name or IP address where *MPD* runs|-h mpdhost|$UPMPD_HOST|mpdhost
+|TCP port for *MPD*|-p mpdport|$UPMPD_PORT|mpdport
+|*MPD* password|||mpdpassword
+|Do we own the *MPD* queue and fearlessly clear it|-o 0/1||ownqueue
+|UPnP "friendly name" for the device. This gets displayed in network search
+  results.|-f friendlyname|$UPMPD_FRIENDLYNAME|friendlyname 
+|Log file name. Leave empty for stderr|-d logfilename||logfilename
+|Verbosity level (0-4)|-l loglevel||loglevel
+|UPnP network interface|-i iface|$UPMPD_UPNPIFACE|upnpiface
+|UPnP IP address (if interface not set)|||upnpip
+|UPnP port|-p port|$UPMPD_UPNPPORT|upnpport
+|OpenHome support switch|-O 0/1||openhome
+|===========================    
+
+[[upmpdcli.openhome]]
+== OpenHome ohMedia services
+
+The support for ohMedia services (play queue managed by the player instead
+of on the control point) is set to _off_ by default in the software, and
+_on_ in the configuration file (which normally does not
+overwrite the previous one during an upgrade). If you are upgrading to a
+version supporting OpenHome and you want to enable the services, you need
+to set the option in the configuration file.
+
+[[upmpdcli.boot]]
+== Boot time startup
+
+*upmpdcli* will try to change its `uid` to user `upmpdcli` if it is
+started by root. It will refuse to run if the user does not exist.
+
+If started by `root`, *upmpdcli* will also write its process id to
+`/var/run/upmpdcli.pid`.
+
+There are boot-time startup scripts in the `debian/` directory inside the
+source tree (for Debian/Ubuntu/Mint/Raspbian etc.). There is also a systemd
+service file under `systemd/` (for Fedora et al.).
+
+The boot scripts are installed by the pre-built packages, so will just have
+to edit the configuration file after installing them, all the rest should
+just work.
+
+[[upmpdcli.building]]
+== Building
+
+For building from source, you will need a recent `C++` compiler (`C++11`),
+and the development packages for *libupnp* version 1.6, and *libmpdclient*.
+
+If you are using the source from Github, you will also need the
+autoconf/automake/libtool trio. Use the `autogen.sh` script to set things
+up.
+
+Otherwise, the procedure is standard and there are currently no specific
+configure options:
+
+    configure --prefix=/usr
+    make
+    sudo make install
+

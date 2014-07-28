@@ -1,0 +1,35 @@
+2014-07-25 Simone De Gregori <orion@runeaudio.com>
+
+	* 0.22-6 :
+	Fix download URL
+	Remove old rc.d scripts
+	Enabled debug
+	
+2012-08-21 AkiraYB <brunoyb!outlook,com>
+
+	* 0.22-5 :
+	Bump pkgrel
+
+2012-08-05 AkiraYB <brunoyb!outlook,com>
+
+	* 0.22-4 :
+	Add systemd service file
+
+2012-02-19 AkiraYB <brunoyb!outlook,com>
+
+	* 0.22-3 :
+	Bump pkgrel
+
+2011-08-13 AkiraYB <brunoyb!outlook,com>
+
+	* 0.22-2 :
+	Change license to GPL2
+	Remove -t option from install cmd
+	Use pkgname where applicable
+	Add mpdscribble.changelog
+	Update sha256sums
+	Remove -m option from install cmd
+
+	* mpdscribble.rcd :
+	Use stat_die instead of stat_fail
+	Fix creation of empty pidfile

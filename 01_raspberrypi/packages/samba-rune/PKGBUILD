@@ -1,0 +1,79 @@
+# $Id$
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+
+pkgname=samba-rune
+pkgver=2.2.12
+pkgrel=1
+pkgdesc='RuneAudio lightweight Samba 2.2'
+url='http://www.samba.org/'
+license=('GPL')
+arch=('armv6h')
+provides=("samba=$pkgver")
+conflicts=('samba')
+replaces=('samba')
+source=("http://ftp.samba.org/pub/samba/old-versions/samba-${pkgver}.tar.gz"
+	'smb-prod.conf'
+        'smb-dev.conf'
+	'install')
+	
+sha1sums=('9f8cf8bef5f7aace692d06c7d1f60be61b046bad'
+	  '59523ae8098bff5eff651acd11fd421657b25a19'
+          '95e736e490e0b13a057ab76e1ba12482ebe47b3c'
+	  '170a0fb0a504653ee290ba5dfc277e169d46be19')
+
+install=install
+
+build() {
+	cd "${srcdir}/samba-${pkgver}/source"
+	./configure \
+		--prefix=${pkgdir}/usr \
+		--sysconfdir=/etc \
+		--without-fhs \
+		--with-configdir=/etc/samba \
+		--with-logfilebase=/var/log \
+		--with-privatedir=/tmp \
+		--with-lockdir=/tmp \
+		--disable-debug \
+		--disable-cups \
+		--without-smbwrapper \
+		--without-afs \
+		--without-dce-dfs \
+		--without-krb4 \
+		--without-krb5 \
+		--without-automount \
+		--without-smbmount \
+		--without-pam \
+		--without-pam_smbpass \
+		--without-tdbsam \
+		--without-ldapsam \
+		--without-nisplussam \
+		--without-nisplus-home \
+		--without-ssl \
+		--without-syslog \
+		--without-profiling-data \
+		--without-quotas \
+		--without-utmp \
+		--without-msdfs \
+		--without-libsmbclient \
+		--without-spinlocks \
+		--without-acl-support \
+		--without-sendfile-support \
+		--without-winbind \
+		--without-winbind-auth-challenge \
+		--without-winbind-ldap-hack 
+	make
+}
+
+package() {
+	rm -rf ${pkgdir}/usr/man
+        rm -rf ${pkgdir}/usr/share/samba/swat
+        cd "${srcdir}/samba-${pkgver}/source"
+	mkdir ${pkgdir}/tmp
+        mkdir ${pkgdir}/tmp/samba
+        make DESTDIR="${pkgdir}" install
+        install -Dm644 ../../../smb-prod.conf "${pkgdir}"/etc/samba/smb-prod.conf
+        install -Dm644 ../../../smb-dev.conf "${pkgdir}"/etc/samba/smb-dev.conf
+        #install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/samba.service
+        #sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/user/samba.service
+}
+

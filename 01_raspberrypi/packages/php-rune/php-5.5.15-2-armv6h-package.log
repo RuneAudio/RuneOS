@@ -1,0 +1,31 @@
+Installing shared extensions:     /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/lib/php/modules/
+Installing PHP CLI binary:        /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/bin/
+Installing PHP CLI man page:      /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/share/man/man1/
+Installing PHP FPM binary:        /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/bin/
+Installing PHP FPM config:        /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/etc/php/
+Installing PHP FPM man page:      /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/share/man/man8/
+Installing PHP FPM status page:      /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/share/fpm/
+Installing build environment:     /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/lib/php/build/
+Installing header files:          /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/include/php/
+Installing helper programs:       /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/bin/
+  program: phpize
+  program: php-config
+Installing man pages:             /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/share/man/man1/
+  page: phpize.1
+  page: php-config.1
+Installing PEAR environment:      /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/share/pear/
+[PEAR] Archive_Tar    - installed: 1.3.11
+[PEAR] Console_Getopt - installed: 1.3.1
+[PEAR] Structures_Graph- installed: 1.0.4
+[PEAR] XML_Util       - installed: 1.2.3
+[PEAR] PEAR           - installed: 1.9.5
+Wrote PEAR system config file at: /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune//etc/php/pear.conf
+You may want to add: /usr/share/pear to your php.ini include_path
+/var/www/app/config/_os/usr/local/src/php-rune/src/php-5.5.15/build/shtool install -c ext/phar/phar.phar /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/bin
+ln -s -f /usr/bin/phar.phar /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/bin/phar
+Installing PEAR environment:      /var/www/app/config/_os/usr/local/src/php-rune/pkg/php-rune/usr/share/pear/
+[PEAR] Archive_Tar: upgrade to a newer version (1.3.11 is not newer than 1.3.11)
+[PEAR] Console_Getopt: upgrade to a newer version (1.3.1 is not newer than 1.3.1)
+[PEAR] Structures_Graph: upgrade to a newer version (1.0.4 is not newer than 1.0.4)
+[PEAR] XML_Util: upgrade to a newer version (1.2.3 is not newer than 1.2.3)
+[PEAR] PEAR: upgrade to a newer version (1.9.5 is not newer than 1.9.5)
