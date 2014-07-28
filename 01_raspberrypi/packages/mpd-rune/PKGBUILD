@@ -8,7 +8,7 @@ pkgdesc='RuneAudio MPD optimized version'
 url='http://www.musicpd.org/'
 license=('GPL')
 arch=('armv6h')
-depends=('audiofile' 'mpg123' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient')
+depends=('audiofile' 'mpg123' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient')
 #makedepends=('doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
