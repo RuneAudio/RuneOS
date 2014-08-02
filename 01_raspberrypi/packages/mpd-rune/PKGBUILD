@@ -2,13 +2,13 @@
 # Maintainer: Simone De Gregori <orion@runeaudio.com>
 
 pkgname=mpd-rune
-pkgver=0.18.11
-pkgrel=2
+pkgver=0.18.12
+pkgrel=1
 pkgdesc='RuneAudio MPD optimized version'
 url='http://www.musicpd.org/'
 license=('GPL')
 arch=('armv6h')
-depends=('audiofile' 'mpg123' 'libmad' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient')
+depends=('audiofile' 'mpg123' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient')
 #makedepends=('doxygen')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
@@ -16,9 +16,9 @@ replaces=('mpd')
 source=("http://www.musicpd.org/download/mpd/${pkgver%.*}/mpd-${pkgver}.tar.xz"
         'tmpfiles.d'
         'mpd.conf')
-sha1sums=('34585fcb49107508b198798b5657df07c86157f0'
+sha1sums=('99ba27a541cb18fcd093d93551d34c1c3145ba49'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
-          'a69ada755254881e3f49a2a99347d2e22870daa1')
+          'e75a826590a38e3a18ba6b755a005eb63e650b4c')
 backup=('etc/mpd.conf')
 #install=install
 
