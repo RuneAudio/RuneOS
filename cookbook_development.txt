@@ -417,5 +417,13 @@ systemctl enable redis
 # link Orion Optimize script
 ln -s /srv/http/command/orion_optimize.sh /usr/sbin/
 
+# create /mnt directory structure
+mkdir /mnt/MPD
+mkdir /mnt/MPD/USB
+mkdir /mnt/MPD/Webradio
+mkdir /mnt/MPD/NAS
+mkdir /mnt/MPD/LocalStorage
+chown -R mpd.audio /mnt/MPD
+
 # reboot system
 reboot
