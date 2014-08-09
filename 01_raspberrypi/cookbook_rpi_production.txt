@@ -1,0 +1,244 @@
+########################################
+# RuneAudio v0.3-beta cookbook         #
+# written by: Orion (production image) #
+# HW platform: RaspberryPi (01)	    #
+########################################
+# install base ArchLinux system (follow guide https://wiki.archlinux.org/index.php/Installation_guide, choose syslinux bootloader
+
+# general system update
+pacman -Syu --noconfirm
+
+# uninstall unecessary packages
+pacman -R cryptsetup device-mapper libgssglue jfsutils lvm2 man-db man-pages reiserfsprogs haveged
+
+# install git support (22.47 MiB)
+pacman -S git --noconfirm
+
+# install NTP package (3.87 MiB)
+pacman -S ntp --noconfirm
+
+# first time sync
+ntpdate pool.ntp.org
+
+# install openssh daemon (6 MiB)
+#pacman -S openssh --noconfirm
+
+# install Redis (1.53 MiB)
+pacman -S redis --noconfirm
+
+
+#########################################
+### -- additional system libraries -- ###
+#########################################
+# install libmcrypt (0.25 MiB)
+pacman -S libmcrypt --noconfirm
+
+# install libjpeg-turbo (1.15 MiB)
+pacman -S libjpeg --noconfirm
+
+# install apr-util (nginx req.) (1.63 MiB) 
+pacman -S apr-util --noconfirm
+
+
+##########################
+### -- system tools -- ###
+##########################
+
+# install wget (3.05 MiB)
+#pacman -S wget --noconfirm
+
+# install ethtool (0.25 MiB)
+pacman -S ethtool --noconfirm
+
+###########################
+### -- network tools -- ###
+###########################
+# install avahi (2.30 MiB)
+#pacman -S avahi --noconfirm
+
+# install nettools (0.49 MiB)
+#pacman -S net-tools --noconfirm
+
+# install ifplugd (0.13 MiB)
+#pacman -S ifplugd --noconfirm
+
+# install wireless tools (0.33 MiB)
+pacman -S wireless_tools --noconfirm
+
+# install hostapd (0.85 MiB)
+pacman -S hostapd --noconfirm
+
+# install nfs-utils (2.49 MiB)
+pacman -S nfs-utils --noconfirm
+
+
+##############################
+### -- filesystem tools -- ###
+##############################
+# install NTFS support (1.50 MiB)
+pacman -S ntfs-3g --noconfirm
+
+# install dosfstools (0.25 MiB)
+pacman -S dosfstools --noconfirm
+
+# install exFAT support (0.19 MiB)
+pacman -S exfat-utils --noconfirm
+
+# install sshfs support (0.07 MiB)
+pacman -S sshfs --noconfirm
+
+# install cifs-utils (0.63 MiB)
+pacman -S cifs-utils --noconfirm
+
+# install ftpfs (0.06 MiB)
+pacman -S curlftpfs --noconfirm
+
+# install USB automount daemon (0.34 MiB)
+# >>> REMEMBER to enable kernel polling when using devmon without udisks:
+# http://ignorantguru.github.com/udevil/#polling
+pacman -S udevil --noconfirm
+
+
+#########################
+### -- AUDIO stack -- ###
+#########################
+# install ALSA utils (9.66 MiB)
+pacman -S alsa-utils --noconfirm
+
+# install SOX (3.08 MiB)
+#pacman -S sox --noconfirm
+
+# install Jack (2.56 MiB)
+pacman -S jack --noconfirm
+
+# install NetJACK driver (0.15 MiB)
+pacman -S celt --noconfirm
+
+
+############################
+### -- install RuneUI -- ###
+############################
+cd /
+ln -s /srv/http/ /var/www
+cd /var/www
+
+# clone RuneUI git repo
+git clone https://github.com/RuneAudio/RuneUI.git .
+
+
+##############################
+# -- setup filesystem ACL -- #
+##############################
+# setup tmpfs directory
+chmod 777 /run
+
+# setup webserver directory
+chown -R http.http /srv/http/
+chmod 644 $(find /srv/http/ -type f)
+chmod 755 $(find /srv/http/ -type d)
+chmod -R 755 /srv/http/command/
+
+# setup log directory
+rm -r /var/log/*
+
+# install motd
+cp /var/www/app/config/_os/etc/motd /etc/
+cp /var/www/app/config/_os/etc/issue /etc/
+
+# install RuneAudio MPD package dependencies
+# install libmpdclient (0.27 MiB)
+pacman -S libmpdclient 
+
+# install faad2 (0.39 MiB)
+pacman -S faad2 --noconfirm
+
+# install sqlite3 (1.21 MiB)
+pacman -S sqlite3 --noconfirm
+
+# install libmms (0.09 MiB)
+pacman -S libmms --noconfirm
+
+# install libid3tag (0.12 MiB)
+pacman -S libid3tag --noconfirm
+
+# install audiofile (0.31 MiB)
+pacman -S audiofile --noconfirm
+
+# install mpg123 (0.69 MiB)
+pacman -S mpg123 --noconfirm
+
+# install mpc (0.10 MiB)
+pacman -S mpc --noconfirm
+
+# build package
+makepkg --asroot
+
+# install mpd-rune (0.62 MiB)
+pacman -U mpd-rune-0.18.10-1-x86_64.pkg.tar.xz --noconfirm
+
+
+# ----->>>> SYSTEM CONFIGURATION <<<<----- #
+
+# install RuneAudio system tweaks
+cp /var/www/app/config/_os/etc/modprobe.d/modprobe.conf /etc/modprobe.d/
+cp /var/www/app/config/_os/etc/modprobe.d/snd-soc-pcm512x.conf /etc/modprobe.d/
+cp /var/www/app/config/_os/etc/profile.d/proxy.sh /etc/profile.d/
+cp /var/www/app/config/_os/etc/udev/rules.d/* /etc/udev/rules.d/
+cp /var/www/app/config/_os/etc/udevil/udevil.conf /etc/udevil/
+cp /var/www/app/config/_os/etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/
+cp /var/www/app/config/_os/etc/sysctl.d/* /etc/sysctl.d/
+cp /var/www/app/config/_os/etc/security/limits.conf /etc/security/limits.conf
+rm -rf /etc/security/limits.d/
+cp /var/www/app/config/_os/usr/lib/systemd/system/rc-local.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/redis.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/rune_PL_wrk.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/rune_SY_wrk.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/rune_shutdown.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/shairport.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/udevil.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/wpa_supplicant@.service /usr/lib/systemd/system/
+
+# disable serial console
+systemctl disable getty@tty1.service
+
+# disable RNGD
+systemctl disable rngd
+
+# disable systemd-journald
+systemctl disable systemd-journald
+systemctl mask systemd-journald
+systemctl mask systemd-journal-flush.service
+
+# disable systemd-logind
+systemctl disable systemd-logind
+systemctl mask systemd-logind
+
+# enable SSHD
+#systemctl enable sshd
+
+# enable php
+systemctl enable php-fpm
+
+# enable nginx
+systemctl enable nginx
+
+# enable mpd
+systemctl enable mpd
+
+# enable redis
+systemctl enable redis
+
+# link Orion Optimize script
+ln -s /srv/http/command/orion_optimize.sh /usr/sbin/
+
+# create /mnt directory structure
+mkdir /mnt/MPD
+mkdir /mnt/MPD/USB
+mkdir /mnt/MPD/Webradio
+mkdir /mnt/MPD/NAS
+mkdir /mnt/MPD/LocalStorage
+chown -R mpd.audio /mnt/MPD
+
+# reboot system
+reboot
+

@@ -1,0 +1,421 @@
+#########################################
+# RuneAudio v0.3-beta cookbook          #
+# written by: Orion (development image) #
+# HW platform: RuneVM (06) 	        #
+# update: 20140809   		        #
+#########################################
+
+# install base ArchLinux system (follow guide https://wiki.archlinux.org/index.php/Installation_guide, choose syslinux bootloader
+
+# install NTP package (3.87 MiB)
+pacman -S ntp --noconfirm
+# first time sync
+ntpdate pool.ntp.org
+
+# general system update
+pacman -Syu --noconfirm
+
+
+##################################
+### -- VM installation only -- ###
+##################################
+pacman -S open-vm-tools --noconfirm
+
+# install openvpn (0.82 MiB)
+pacman -S openvpn
+systemctl enable vmtoolsd
+systemctl start vmtoolsd
+
+# install openssh daemon (6 MiB)
+pacman -S openssh --noconfirm
+
+# install Redis (1.53 MiB)
+pacman -S redis --noconfirm
+
+
+############################
+### -- optional tools -- ###
+############################
+# install midnight commander (9.55 MiB)
+pacman -S mc --noconfirm
+
+# install mlocate (0.35 MiB)
+pacman -S mlocate --noconfirm
+
+# install screen terminal multiplexer
+pacman -S screen --noconfirm
+
+###########################################
+### -- devel tools for package build -- ###
+###########################################
+# install base-devel (136.77 MiB)
+pacman -S base-devel --noconfirm
+
+# install ed (0.09 MiB)
+pacman -S ed --noconfirm
+
+# install re2c (0.23 MiB)
+pacman -S re2c --noconfirm
+
+# install bc (0.18 MiB)
+pacman -S bc --noconfirm
+
+# install xmlto (10.68 MiB)
+pacman -S xmlto --noconfirm
+
+# install docbook-xsl (15.24 MiB)
+pacman -S docbook-xsl --noconfirm
+
+# install git support (22.47 MiB)
+pacman -S git --noconfirm
+
+# install yasm 
+pacman -S yasm --noconfirm
+
+
+#########################################
+### -- additional system libraries -- ###
+#########################################
+# install libmcrypt (0.25 MiB)
+pacman -S libmcrypt --noconfirm
+
+# install libjpeg-turbo (1.15 MiB)
+pacman -S libjpeg --noconfirm
+
+# install apr-util (nginx req.) (1.63 MiB) 
+pacman -S apr-util --noconfirm
+
+
+##########################
+### -- system tools -- ###
+##########################
+# install atop (0.44 MiB)
+pacman -S atop --noconfirm
+
+# install wget (3.05 MiB)
+pacman -S wget --noconfirm
+
+# install ethtool (0.25 MiB)
+pacman -S ethtool --noconfirm
+
+# install mkinitcpio (*0.21 MiB)
+pacman -S mkinitcpio --noconfirm
+
+
+###########################
+### -- network tools -- ###
+###########################
+# install avahi (2.30 MiB)
+pacman -S avahi --noconfirm
+
+# install nettools (0.49 MiB)
+pacman -S net-tools --noconfirm
+
+# install ifplugd (0.13 MiB)
+pacman -S ifplugd --noconfirm
+
+# install wireless tools (0.33 MiB)
+pacman -S wireless_tools --noconfirm
+
+# install iw (1.18 MiB)
+pacman -S iw --noconfirm
+
+# install hostapd (0.85 MiB)
+pacman -S hostapd --noconfirm
+
+# install nfs-utils (2.49 MiB)
+pacman -S nfs-utils --noconfirm
+
+# install netcat (0.36 MiB)
+pacman -S openbsd-netcat --noconfirm
+
+
+##############################
+### -- filesystem tools -- ###
+##############################
+# install NTFS support (1.50 MiB)
+pacman -S ntfs-3g --noconfirm
+
+# install dosfstools (0.25 MiB)
+pacman -S dosfstools --noconfirm
+
+# install exFAT support (0.19 MiB)
+pacman -S exfat-utils --noconfirm
+
+# install sshfs support (0.07 MiB)
+pacman -S sshfs --noconfirm
+
+# install cifs-utils (0.63 MiB)
+pacman -S cifs-utils --noconfirm
+
+# install ftpfs (0.06 MiB)
+pacman -S curlftpfs --noconfirm
+
+# install USB automount daemon (0.34 MiB)
+# >>> REMEMBER to enable kernel polling when using devmon without udisks:
+# http://ignorantguru.github.com/udevil/#polling
+pacman -S udevil --noconfirm
+
+
+#########################
+### -- AUDIO stack -- ###
+#########################
+# install ALSA utils (9.66 MiB)
+pacman -S alsa-utils --noconfirm
+
+# install SOX (3.08 MiB)
+pacman -S sox --noconfirm
+
+# install Jack (2.56 MiB)
+pacman -S jack --noconfirm
+
+# install NetJACK driver (0.15 MiB)
+pacman -S celt --noconfirm
+
+
+############################
+### -- install RuneUI -- ###
+############################
+cd /
+ln -s /srv/http/ /var/www
+cd /var/www
+
+# clone RuneUI git repo
+git clone https://github.com/Orion1/RuneAudioNext.git .
+
+
+##############################
+# -- setup filesystem ACL -- #
+##############################
+# setup tmpfs directory
+chmod 777 /run
+
+# setup webserver directory
+chown -R http.http /srv/http/
+chmod 644 $(find /srv/http/ -type f)
+chmod 755 $(find /srv/http/ -type d)
+chmod -R 755 /srv/http/command/
+
+# setup log directory
+rm -r /var/log/*
+mkdir /var/log/runeaudio/
+
+# install motd
+cp /var/www/_OS_SETTINGS/etc/motd /etc/
+cp /var/www/_OS_SETTINGS/etc/issue /etc/
+
+
+# ----->>>> BUILD CUSTOM PACKAGES <<<<----- #
+
+################################# 
+# -- build hfsutils v3.2.6-4 -- #
+#################################
+# setup pkgdir
+cd /usr/local/src
+mkdir hfsutils
+cd hfsutils
+wget http://pkgbuild.com/git/aur-mirror.git/plain/hfsutils/PKGBUILD
+wget http://pkgbuild.com/git/aur-mirror.git/plain/hfsutils/Makefile-install.patch
+makepkg -s --asroot
+
+# install hfsutils (0.15 MiB)
+pacman -U hfsutils-3.2.6-4-x86_64.pkg.tar.xz --noconfirm
+
+
+################################ 
+# -- build php-rune v5.5.12 -- #
+################################
+# php deps
+pacman -S icu --noconfirm
+pacman -S libpng --noconfirm
+
+# setup pkgdir
+cp -r /var/www/_OS_SETTINGS/usr/local/src/php-rune /usr/local/src/php-rune
+cd /usr/local/src/php-rune
+ln -s PKGBUILD.x86_64 PKGBUILD
+makepkg --asroot
+
+# install php-rune (23.02 MiB)
+pacman -U php-rune-5.5.12-1-x86_64.pkg.tar.xz
+
+# install pthreads support
+pecl install channel://pecl.php.net/pthreads-2.0.7
+
+# install Redis support (phpredis)
+cd /usr/local/src
+git clone https://github.com/nicolasff/phpredis.git
+cd phpredis
+phpize
+./configure
+make && make install
+
+
+################################# 
+# -- build nginx-rune v1.4.7 -- #
+#################################
+# setup pkgdir
+cp -r /var/www/_OS_SETTINGS/usr/local/src/nginx-rune /usr/local/src/nginx-rune
+cd /usr/local/src/nginx-rune
+ln -s PKGBUILD.x86_64 PKGBUILD
+makepkg --asroot
+
+# install nginx-rune (1.02 MiB)
+pacman -U nginx-rune-1.4.7-1-x86_64.pkg.tar.xz
+
+
+################################# 
+# -- build mpd-rune v0.18.10 -- #
+#################################
+# setup pkgdir
+cp -r /var/www/_OS_SETTINGS/usr/local/src/mpd-rune /usr/local/src/mpd-rune
+cd /usr/local/src/mpd-rune
+ln -s PKGBUILD.x86_64 PKGBUILD
+
+# standard MPD package dependencies
+#--------------------
+#	audiofile-0.3.6-2  avahi-0.6.31-12  damageproto-1.2.1-2  elfutils-0.158-3  enca-1.15-1  faad2-2.7-4  ffmpeg-1:2.2.2-3  fixesproto-5.0-2  fontconfig-2.11.1-1  freetype2-2.5.3-2  fribidi-0.19.6-1  gnutls-3.3.2-1
+#    graphite-1:1.2.4-1  gsm-1.0.13-7  harfbuzz-0.9.28-1  inputproto-2.3-1  jack-0.124.1-1  json-c-0.12-2  lame-3.99.5-2  libao-1.2.0-1  libass-0.11.2-1  libasyncns-0.8-5  libbluray-0.5.0-1  libdaemon-0.14-2  libdrm-2.4.54-1
+#    libice-1.0.8-2  libid3tag-0.15.1b-8  libjpeg-turbo-1.3.1-1  libmad-0.15.1b-7  libmms-0.6.2-1  libmodplug-0.8.8.5-1  libmpdclient-2.9-1  libpciaccess-0.13.2-2  libpng-1.6.10-1  libpulse-5.0-1  libshout-1:2.3.1-2
+#    libsm-1.2.2-2  libtasn1-3.4-1  libtheora-1.1.1-3  libva-1.3.1-1  libvdpau-0.7-1  libvpx-1.3.0-1  libxdamage-1.1.4-1  libxfixes-5.0.1-1  libxi-1.7.2-1  libxrender-0.9.8-1  libxshmfence-1.1-1  libxtst-1.2.2-1
+#    libxxf86vm-1.1.3-1  llvm-libs-3.4.1-2  mesa-10.1.4-1  mesa-libgl-10.1.4-1  nettle-2.7.1-1  opencore-amr-0.1.3-1  openjpeg-1.5.2-1  opus-1.1-1  orc-0.4.19-1  p11-kit-0.20.2-1  recode-3.6-8  recordproto-1.14.2-1
+#    renderproto-0.11.1-2  rtmpdump-20131205-1  schroedinger-1.0.11-2  sdl-1.2.15-6  speex-1.2rc1-4  sqlite-3.8.4.3-2  v4l-utils-1.0.1-1  wavpack-4.70.0-2  wayland-1.5.0-1  x264-1:142.20140311-1  x265-1.0-1
+#    xf86vidmodeproto-2.3.1-2  xvidcore-1.3.2-3  yajl-2.1.0-1  mpd-0.18.11-1
+
+# install RuneAudio MPD package dependencies
+# install libmpdclient (0.27 MiB)
+pacman -S libmpdclient 
+
+# install faad2 (0.39 MiB)
+pacman -S faad2 --noconfirm
+
+# install sqlite3 (1.21 MiB)
+pacman -S sqlite3 --noconfirm
+
+# install libmms (0.09 MiB)
+pacman -S libmms --noconfirm
+
+# install libid3tag (0.12 MiB)
+pacman -S libid3tag --noconfirm
+
+# install doxygen (10.22 MiB)
+pacman -S doxygen --noconfirm
+
+# install audiofile (0.31 MiB)
+pacman -S audiofile --noconfirm
+
+# install mpg123 (0.69 MiB)
+pacman -S mpg123 --noconfirm
+
+# install mpg123 (?? MiB)
+pacman -S libmad --noconfirm
+
+# install mpc (0.10 MiB)
+pacman -S mpc --noconfirm
+
+# build package
+makepkg --asroot
+
+# install mpd-rune (0.62 MiB)
+pacman -U mpd-rune-0.18.10-1-x86_64.pkg.tar.xz --noconfirm
+
+
+################################## 
+# -- mopidy (spotify support) -- #
+##################################
+
+# install python2-pykka (0.22 MiB)
+pacman -U python2-pykka-1.2.0-1-any.pkg.tar.xz
+
+# install python2-ws4py (0.36 MiB)
+pacman -U python2-ws4py-0.3.4-1-any.pkg.tar.xz
+
+# install python2-setuptools (2.05 MiB)
+pacman -S python2-setuptools
+
+# install gstreamer0.10-python (gstreamer0.10-0.10.36-4  gstreamer0.10-base-0.10.36-3  libxv-1.0.10-1  pygobject2-devel-2.28.6-10  python2-gobject2-2.28.6-10  videoproto-2.3.2-1  gstreamer0.10-python-0.10.22-1 = 15.07 MiB)
+pacman -S gstreamer0.10-python
+
+# install gstreamer0.10-base-plugins (cairo-1.12.16-2  cdparanoia-10.2-5  libdatrie-0.2.6-1  libthai-0.1.19-1  libvisual-0.4.0-4  libxft-2.3.1-2  pango-1.36.3-2  pixman-0.32.4-1  gstreamer0.10-base-plugins-0.10.36-3 = 9.36 MiB)
+pacman -S gstreamer0.10-base-plugins
+
+# install gstreamer0.10-good-plugins  (aalib-1.4rc5-10  dbus-glib-0.102-1  gconf-3.2.6-3  gdk-pixbuf2-2.30.7-1  glib-networking-2.40.1-1  gsettings-desktop-schemas-3.12.2-1  gstreamer0.10-good-0.10.31-6  imlib2-1.4.6-1
+               jasper-1.900.1-10  js17-17.0.0-1  libavc1394-0.5.4-2  libcaca-0.99.beta18-2  libdv-1.0.0-6  libiec61883-1.2.0-4  libproxy-0.4.11-2  libraw1394-2.1.0-2  libsoup-2.46.0-1  nspr-4.10.5-1
+               polkit-0.112-2  taglib-1.9.1-1  gstreamer0.10-good-plugins-0.10.31-6 = 41.00 MiB)
+pacman -S gstreamer0.10-good-plugins
+
+# install gstreamer0.10-ugly-plugins (a52dec-0.7.4-8  gstreamer0.10-ugly-0.10.19-11  libcddb-1.3.2-4  libcdio-0.92-1  libdvdread-4.9.9-1  libmpeg2-0.5.1-4  libsidplay-1.36.59-6  gstreamer0.10-ugly-plugins-0.10.19-11 =  2.99 MiB)
+pacman -S gstreamer0.10-ugly-plugins
+
+# install python2-cherrypy-3.3.0-1 (3.44 MiB)
+pacman -S python2-cherrypy
+
+# install libspotify-12.1.103-1 (3.63 MiB)
+pacman -U libspotify-12.1.103-1-armv6h.pkg.tar.xz
+
+# install pyspotify-1.11-1 (0.22 MiB)
+pacman -U pyspotify-1.11-1-any.pkg.tar.xz
+
+# install mopidy-spotify-1.1.0-1 (0.15 MiB)
+pacman -U mopidy-spotify-1.1.0-1-any.pkg.tar.xz
+
+#-----------------------------------------------------------------------
+
+########################
+# -- build mpd-upnp -- #
+########################
+# install libupnp (0.46 MiB)
+pacman -S libupnp
+cd /usr/local/src
+git clone https://github.com/medoc92/mpd-upnp.git mpd-upnp
+cd mpd-upnp
+
+
+
+################################## 
+# -- build mpdscribble v1.4.7 -- #
+##################################
+cd /usr/local/src
+wget http://www.musicpd.org/download/mpdscribble/0.22/mpdscribble-0.22.tar.bz2
+tar xjvf mpdscribble-0.22.tar.bz2
+cd mpdscribble-0.22
+./configure --sysconfdir=/etc --enable-debug
+make
+make install
+
+
+############################## 
+# -- build shairport-rune -- #
+##############################
+cd /usr/local/src
+git clone git://github.com/abrasive/shairport.git
+cd shairport
+patch player.c < /var/www/_OS_SETTINGS/usr/local/src/shairport/player.c.runeaudio.patch
+./configure
+make
+make install
+cp /var/www/_OS_SETTINGS/usr/lib/systemd/system/mpdscribble.service /usr/lib/systemd/system/
+
+
+# ----->>>> SYSTEM CONFIGURATION <<<<----- #
+
+
+# enable SSHD
+systemctl enable sshd
+
+# enable php
+systemctl enable php-fpm
+
+# enable nginx
+systemctl enable nginx
+
+# enable mpd
+systemctl enable mpd
+
+# enable redis
+systemctl enable redis
+
+# link Orion Optimize script
+ln -s /srv/http/command/orion_optimize.sh /usr/sbin/
+
+# reboot system
+reboot
