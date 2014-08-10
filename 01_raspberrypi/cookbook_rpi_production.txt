@@ -185,6 +185,7 @@ cp /var/www/app/config/_os/etc/modprobe.d/snd-soc-pcm512x.conf /etc/modprobe.d/
 cp /var/www/app/config/_os/etc/profile.d/proxy.sh /etc/profile.d/
 cp /var/www/app/config/_os/etc/udev/rules.d/* /etc/udev/rules.d/
 cp /var/www/app/config/_os/etc/udevil/udevil.conf /etc/udevil/
+cp /var/www/app/config/_os/etc/netconfig /etc/netconfig
 cp /var/www/app/config/_os/etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/
 cp /var/www/app/config/_os/etc/sysctl.d/* /etc/sysctl.d/
 cp /var/www/app/config/_os/etc/security/limits.conf /etc/security/limits.conf
@@ -227,6 +228,10 @@ systemctl enable mpd
 
 # enable redis
 systemctl enable redis
+
+# enable RuneAudio background workers
+systemctl enable rune_PL_wrk
+systemctl enable rune_SY_wrk
 
 # link Orion Optimize script
 ln -s /srv/http/command/orion_optimize.sh /usr/sbin/
