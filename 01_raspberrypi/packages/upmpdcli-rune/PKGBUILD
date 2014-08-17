@@ -1,7 +1,7 @@
 # Contributor: Markus M. May <triplem@javafreedom.org>
 
 pkgname=upmpdcli-rune
-pkgver=0.7.1
+pkgver=0.8.0
 pkgrel=1
 pkgdesc="an UPnP front-end to the Music Player Daemon"
 license="GPL"
@@ -11,7 +11,7 @@ arch=(armv6h)
 
 #source=("http://github.com/medoc92/upmpdcli/archive/v0.5.tar.gz")
 source=("https://github.com/medoc92/upmpdcli/archive/master.zip")
-sha1sums=('b9b7dffe4c8d549bab98d3f1e47bab84a09f83ca')
+sha1sums=('63422aad72aca30646243d29c5e47091b0753eb9')
 
 backup=()
 url="http://www.lesbonscomptes.com/upmpdcli/"
