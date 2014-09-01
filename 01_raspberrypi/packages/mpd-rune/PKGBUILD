@@ -2,7 +2,7 @@
 # Maintainer: Simone De Gregori <orion@runeaudio.com>
 
 pkgname=mpd-rune
-pkgver=0.18.12
+pkgver=0.18.13
 pkgrel=1
 pkgdesc='RuneAudio MPD optimized version'
 url='http://www.musicpd.org/'
@@ -16,7 +16,7 @@ replaces=('mpd')
 source=("http://www.musicpd.org/download/mpd/${pkgver%.*}/mpd-${pkgver}.tar.xz"
         'tmpfiles.d'
         'mpd.conf')
-sha1sums=('99ba27a541cb18fcd093d93551d34c1c3145ba49'
+sha1sums=('0ddf8c55228fcc67522ecdd7710f93dc146c99a7'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           'e75a826590a38e3a18ba6b755a005eb63e650b4c')
 backup=('etc/mpd.conf')
