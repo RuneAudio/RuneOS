@@ -3,10 +3,10 @@
 
 pkgbase=php
 pkgname=php-rune
-pkgdesc="PHP-FPM 5.5.15 (RuneAudio)"
+pkgdesc="PHP-FPM 5.5.16 [pthreads] (RuneAudio)"
 packager="RuneAudio Team"
-pkgver=5.5.15
-pkgrel=1
+pkgver=5.5.16
+pkgrel=2
 pkgdir=${startdir}/pkg/${pkgname}
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
 license=('PHP')
@@ -15,11 +15,10 @@ makedepends=('file' 'libmcrypt' 'libltdl' 'libpng' 'libjpeg' 'icu'
              'curl' 'bzip2' 'db' 'gmp' 'systemd')
 source=("http://www.php.net/distributions/${pkgbase}-${pkgver}.tar.gz"
         "http://www.php.net/distributions/${pkgbase}-${pkgver}.tar.gz.asc"
-#source=("php-5.5.12.tar.gz"
-#        "php-5.5.12.tar.gz.asc"
         'logrotate.d.php-fpm' 'php-fpm.service' 'php-fpm.tmpfiles')
-sha1sums=('d9df11b97a9f1c686194e91165602f47e3bd74e6'
-	  '5e81a7339ae1399c0264587fcdc6db269b4b15c6'
+
+sha1sums=('4360e07c1d46fa5464023fb3c0f22c5488f92159'
+          'b4a36398be61556a2beb4bbc0d32f1aa80e3d8be'
 	  '688e35049f78011f514a87506890d56c5a15654d'
 	  '09e9b0a73a921b063ac357faaf422af106b94487'
 	  'a32b34b8f0262317c865260cf937fcbccbaf8927')
