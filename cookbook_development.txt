@@ -181,7 +181,7 @@ ln -s /srv/http/ /var/www
 cd /var/www
 
 # clone RuneUI git repo
-git clone https://github.com/Orion1/RuneAudioNext.git .
+git clone https://github.com/RuneAudio/RuneUI.git .
 
 
 ##############################
@@ -201,8 +201,8 @@ rm -r /var/log/*
 mkdir /var/log/runeaudio/
 
 # install motd
-cp /var/www/_OS_SETTINGS/etc/motd /etc/
-cp /var/www/_OS_SETTINGS/etc/issue /etc/
+cp /var/www/app/config/_os/etc/motd /etc/
+cp /var/www/app/config/_os/etc/issue /etc/
 
 
 # ----->>>> BUILD CUSTOM PACKAGES <<<<----- #
@@ -230,7 +230,7 @@ pacman -S icu --noconfirm
 pacman -S libpng --noconfirm
 
 # setup pkgdir
-cp -r /var/www/_OS_SETTINGS/usr/local/src/php-rune /usr/local/src/php-rune
+cp -r /var/www/app/config/_os/usr/local/src/php-rune /usr/local/src/php-rune
 cd /usr/local/src/php-rune
 ln -s PKGBUILD.x86_64 PKGBUILD
 makepkg --asroot
@@ -254,7 +254,7 @@ make && make install
 # -- build nginx-rune v1.4.7 -- #
 #################################
 # setup pkgdir
-cp -r /var/www/_OS_SETTINGS/usr/local/src/nginx-rune /usr/local/src/nginx-rune
+cp -r /var/www/app/config/_os/usr/local/src/nginx-rune /usr/local/src/nginx-rune
 cd /usr/local/src/nginx-rune
 ln -s PKGBUILD.x86_64 PKGBUILD
 makepkg --asroot
@@ -267,7 +267,7 @@ pacman -U nginx-rune-1.4.7-1-x86_64.pkg.tar.xz
 # -- build mpd-rune v0.18.10 -- #
 #################################
 # setup pkgdir
-cp -r /var/www/_OS_SETTINGS/usr/local/src/mpd-rune /usr/local/src/mpd-rune
+cp -r /var/www/app/config/_os/usr/local/src/mpd-rune /usr/local/src/mpd-rune
 cd /usr/local/src/mpd-rune
 ln -s PKGBUILD.x86_64 PKGBUILD
 
@@ -389,11 +389,11 @@ make install
 cd /usr/local/src
 git clone git://github.com/abrasive/shairport.git
 cd shairport
-patch player.c < /var/www/_OS_SETTINGS/usr/local/src/shairport/player.c.runeaudio.patch
+patch player.c < /var/www/app/config/_os/usr/local/src/shairport/player.c.runeaudio.patch
 ./configure
 make
 make install
-cp /var/www/_OS_SETTINGS/usr/lib/systemd/system/mpdscribble.service /usr/lib/systemd/system/
+cp /var/www/app/config/_os/usr/lib/systemd/system/mpdscribble.service /usr/lib/systemd/system/
 
 
 # ----->>>> SYSTEM CONFIGURATION <<<<----- #
