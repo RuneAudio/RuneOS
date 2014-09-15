@@ -9,7 +9,7 @@
 pacman -Syu --noconfirm
 
 # uninstall unecessary packages
-pacman -R cryptsetup device-mapper libgssglue jfsutils lvm2 man-db man-pages reiserfsprogs haveged
+pacman -R cryptsetup jfsutils lvm2 man-db man-pages reiserfsprogs haveged
 
 # install git support (22.47 MiB)
 pacman -S git --noconfirm
@@ -45,7 +45,7 @@ pacman -S apr-util --noconfirm
 ##########################
 
 # install wget (3.05 MiB)
-#pacman -S wget --noconfirm
+pacman -S wget --noconfirm
 
 # install ethtool (0.25 MiB)
 pacman -S ethtool --noconfirm
@@ -54,22 +54,34 @@ pacman -S ethtool --noconfirm
 ### -- network tools -- ###
 ###########################
 # install avahi (2.30 MiB)
-#pacman -S avahi --noconfirm
+pacman -S avahi --noconfirm
 
 # install nettools (0.49 MiB)
-#pacman -S net-tools --noconfirm
+pacman -S net-tools --noconfirm
 
 # install ifplugd (0.13 MiB)
-#pacman -S ifplugd --noconfirm
+pacman -S ifplugd --noconfirm
 
 # install wireless tools (0.33 MiB)
 pacman -S wireless_tools --noconfirm
+
+# install wpa_supplicant (1.43 MiB)
+pacman -S wpa_supplicant
 
 # install hostapd (0.85 MiB)
 pacman -S hostapd --noconfirm
 
 # install nfs-utils (2.49 MiB)
 pacman -S nfs-utils --noconfirm
+
+# install libupnp (0.46 MiB)
+pacman -S libupnp --noconfirm
+
+# install libxml2 (8.10 MiB)
+pacman -S libxml2 --noconfirm
+
+# install yasm (2.80 MiB)
+pacman -S yasm --noconfirm
 
 
 ##############################
@@ -106,7 +118,7 @@ pacman -S udevil --noconfirm
 pacman -S alsa-utils --noconfirm
 
 # install SOX (3.08 MiB)
-#pacman -S sox --noconfirm
+pacman -S sox --noconfirm
 
 # install Jack (2.56 MiB)
 pacman -S jack --noconfirm
@@ -140,6 +152,9 @@ chmod -R 755 /srv/http/command/
 
 # setup log directory
 rm -r /var/log/*
+mkdir /var/log/runeaudio
+echo "logs            /var/log                tmpfs           nodev,nosuid,noatime,mode=1777,size=5M                  0       0" >> /etc/fstab
+echo "rune-logs       /var/log/runeaudio      tmpfs           nodev,nosuid,noatime,mode=1777,size=5M                  0       0" >> /etc/fstab
 
 # install motd
 cp /var/www/app/config/_os/etc/motd /etc/
@@ -155,6 +170,9 @@ pacman -S faad2 --noconfirm
 # install sqlite3 (1.21 MiB)
 pacman -S sqlite3 --noconfirm
 
+# install libmad (0.13 MiB)
+pacman -S libmad --noconfirm
+
 # install libmms (0.09 MiB)
 pacman -S libmms --noconfirm
 
@@ -169,9 +187,6 @@ pacman -S mpg123 --noconfirm
 
 # install mpc (0.10 MiB)
 pacman -S mpc --noconfirm
-
-# build package
-makepkg --asroot
 
 # install mpd-rune (0.62 MiB)
 pacman -U mpd-rune-0.18.10-1-x86_64.pkg.tar.xz --noconfirm
@@ -215,7 +230,7 @@ systemctl disable systemd-logind
 systemctl mask systemd-logind
 
 # enable SSHD
-#systemctl enable sshd
+systemctl enable sshd
 
 # enable php
 systemctl enable php-fpm

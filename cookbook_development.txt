@@ -207,6 +207,9 @@ cp /var/www/app/config/_os/etc/issue /etc/
 
 # ----->>>> BUILD CUSTOM PACKAGES <<<<----- #
 
+# clone RuneOS repo
+git clone https://github.com/RuneAudio/RuneOS.git /usr/local/src/RuneOS
+
 ################################# 
 # -- build hfsutils v3.2.6-4 -- #
 #################################
@@ -364,7 +367,7 @@ pacman -U mopidy-spotify-1.1.0-1-any.pkg.tar.xz
 # -- build mpd-upnp -- #
 ########################
 # install libupnp (0.46 MiB)
-pacman -S libupnp
+pacman -S libupnp --noconfirm
 cd /usr/local/src
 git clone https://github.com/medoc92/mpd-upnp.git mpd-upnp
 cd mpd-upnp
