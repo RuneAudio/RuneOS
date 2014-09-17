@@ -188,11 +188,88 @@ pacman -S mpg123 --noconfirm
 # install mpc (0.10 MiB)
 pacman -S mpc --noconfirm
 
-# install mpd-rune (0.62 MiB)
+
+# ----->>>> DOWNLOAD PACKAGES FROM RuneOS REPO <<<<----- #
+
+
+cd /usr/local/src/
+# ffmpeg-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/ffmpeg-rune/ffmpeg-rune-r65426.4b63bce-1-armv6h.pkg.tar.xz
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/ffmpeg-rune/libva.so.1.3501.0
+
+# hfsprogs-rune (optional)
+#wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/hfsprogs-rune/hfsprogs-rune-332.25-10-armv6h.pkg.tar.xz
+
+# hfsutils-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/hfsutils-rune/hfsutils-rune-3.2.6-4-armv6h.pkg.tar.xz
+
+# mpd-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/mpd-rune/mpd-rune-0.18.14-1-armv6h.pkg.tar.xz
+
+# mpdscribble-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/mpdscribble-rune/mpdscribble-rune-0.22-6-armv6h.pkg.tar.xz
+
+# nginx-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/nginx-rune/nginx-rune-1.4.7-2-armv6h.pkg.tar.xz
+
+# php-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/php-rune/php-rune-5.5.16-1-armv6h.pkg.tar.xz
+
+# phpredis-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/phpredis-rune/phpredis-rune-2.2.5-1-armv6h.pkg.tar.xz
+
+# samba-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/samba-rune/samba-rune-2.2.12-1-armv6h.pkg.tar.xz
+
+# shairport-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/shairport-rune/shairport-rune-1.0-1-armv6h.pkg.tar.xz
+
+# tcp_wrappers
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/tcp_wrappers/tcp_wrappers-7.6-16-armv6h.pkg.tar.xz
+
+# upmpdcli-rune
+wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/upmpdcli-rune/upmpdcli-rune-0.8.0-1-armv6h.pkg.tar.xz
+
+
+# ----->>>> INSTALL RuneOS packages <<<<----- #
+
+
+# install ffmpeg-rune
+pacman -U ffmpeg-rune-r65426.4b63bce-1-armv6h.pkg.tar.xz
+cp libva.so.1.3501.0 /usr/lib/
+ln -s /usr/lib/libva.so.1.3501.0 /usr/lib/libva.so.1
+ln -s /usr/lib/libva.so.1.3501.0 /usr/lib/libva.so
+
+# install mpd-rune
 pacman -U mpd-rune-0.18.10-1-x86_64.pkg.tar.xz --noconfirm
+
+# install mpdscribble-rune
+pacman -U mpdscribble-rune-0.22-6-armv6h.pkg.tar.xz
+
+# install nginx-rune
+pacman -U nginx-rune-1.4.7-2-armv6h.pkg.tar.xz
+
+# install php-rune
+pacman -U php-rune-5.5.16-1-armv6h.pkg.tar.xz
+
+# install phpredis-rune
+pacman -U phpredis-rune-2.2.5-1-armv6h.pkg.tar.xz
+
+# install samba-rune
+pacman -U samba-rune-2.2.12-1-armv6h.pkg.tar.xz
+
+# install shairport-rune
+pacman -U shairport-rune-1.0-1-armv6h.pkg.tar.xz
+
+# install tcp_wrappers
+pacman -U tcp_wrappers-7.6-16-armv6h.pkg.tar.xz
+
+# install upmpdcli-rune
+pacman -U upmpdcli-rune-0.8.0-1-armv6h.pkg.tar.xz
 
 
 # ----->>>> SYSTEM CONFIGURATION <<<<----- #
+
 
 # install RuneAudio system tweaks
 cp /var/www/app/config/_os/etc/modprobe.d/modprobe.conf /etc/modprobe.d/
@@ -213,9 +290,6 @@ cp /var/www/app/config/_os/usr/lib/systemd/system/rune_shutdown.service /usr/lib
 cp /var/www/app/config/_os/usr/lib/systemd/system/shairport.service /usr/lib/systemd/system/
 cp /var/www/app/config/_os/usr/lib/systemd/system/udevil.service /usr/lib/systemd/system/
 cp /var/www/app/config/_os/usr/lib/systemd/system/wpa_supplicant@.service /usr/lib/systemd/system/
-
-# disable serial console
-systemctl disable getty@tty1.service
 
 # disable RNGD
 systemctl disable rngd
