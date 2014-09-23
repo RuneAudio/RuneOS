@@ -3,10 +3,10 @@
 
 pkgbase=php
 pkgname=php-rune
-pkgdesc="PHP-FPM 5.5.17 [pthreads] (RuneAudio)"
+pkgdesc="PHP-FPM 5.5.17 (RuneAudio)"
 packager="RuneAudio Team"
 pkgver=5.5.17
-pkgrel=2
+pkgrel=1
 pkgdir=${startdir}/pkg/${pkgname}
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
 license=('PHP')
@@ -18,7 +18,7 @@ source=("http://www.php.net/distributions/${pkgbase}-${pkgver}.tar.gz"
         'logrotate.d.php-fpm' 'php-fpm.service' 'php-fpm.tmpfiles')
 
 sha1sums=('SKIP'
-          'SKIP'
+	  'SKIP'
 	  '688e35049f78011f514a87506890d56c5a15654d'
 	  '09e9b0a73a921b063ac357faaf422af106b94487'
 	  'a32b34b8f0262317c865260cf937fcbccbaf8927')
@@ -41,42 +41,36 @@ build() {
 	local _phpextensions="--disable-all \
 		--disable-cgi \
 		--disable-ipv6 \
-		--disable-shared \
 		--enable-static \
 		--enable-fpm \
-		--enable-pcntl \
 		--enable-bcmath=static \
-		--enable-cli \
-		--enable-ctype \
-		--enable-embed=static \
-		--enable-fileinfo \
-		--enable-mbstring \
-		--enable-opcache \
-		--enable-phar \
-		--enable-posix \
-		--enable-shmop \
+		--enable-cli=static \
+		--enable-ctype=static \
+		--enable-fileinfo=static \
+		--enable-mbstring=static \
+		--enable-opcache=shared \
+		--enable-phar=static \
+		--enable-posix=static \
+		--enable-shmop=static \
 		--enable-sockets=static \
-		--enable-maintainer-zts \
-		--enable-zend-signals \
-		--enable-sysvmsg \
-		--enable-sysvsem \
-		--enable-sysvshm \
-		--enable-xml \
-		--enable-libxml \
-		--enable-json \
-		--enable-session \
+		--enable-sysvmsg=static \
+		--enable-sysvsem=static \
+		--enable-sysvshm=static \
+		--enable-xml=static \
+		--enable-simplexml=static \
+		--enable-libxml=static \
+		--enable-json=static \
+		--enable-session=static \
 		--with-bz2=static \
 		--with-curl=static \
 		--with-fpm-systemd \
-		--with-gettext \
+		--with-gettext=static \
 		--with-iconv \
 		--with-mcrypt \
 		--with-mhash \
 		--with-openssl \
 		--with-pcre-regex=/usr \
-		--with-tsrm-pthreads \
 		--with-zlib \
-		--without-pic \
 		--with-readline \
 		--with-pear \
 		--with-fpm-user=http \

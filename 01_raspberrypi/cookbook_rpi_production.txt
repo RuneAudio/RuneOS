@@ -149,6 +149,8 @@ chown -R http.http /srv/http/
 chmod 644 $(find /srv/http/ -type f)
 chmod 755 $(find /srv/http/ -type d)
 chmod -R 755 /srv/http/command/
+chmod -R 755 /srv/http/db/redis_datastore_setup
+chmod -R 755 /srv/http/db/redis_acards_details
 
 # setup log directory
 rm -r /var/log/*
@@ -162,7 +164,7 @@ cp /var/www/app/config/_os/etc/issue /etc/
 
 # install RuneAudio MPD package dependencies
 # install libmpdclient (0.27 MiB)
-pacman -S libmpdclient 
+pacman -S libmpdclient --noconfirm
 
 # install faad2 (0.39 MiB)
 pacman -S faad2 --noconfirm
@@ -235,10 +237,8 @@ wget https://github.com/RuneAudio/RuneOS/raw/master/01_raspberrypi/packages/upmp
 
 
 # install ffmpeg-rune
+pacman -Sd --nodeps libva
 pacman -U ffmpeg-rune-r65426.4b63bce-1-armv6h.pkg.tar.xz
-cp libva.so.1.3501.0 /usr/lib/
-ln -s /usr/lib/libva.so.1.3501.0 /usr/lib/libva.so.1
-ln -s /usr/lib/libva.so.1.3501.0 /usr/lib/libva.so
 
 # install mpd-rune
 pacman -U mpd-rune-0.18.10-1-x86_64.pkg.tar.xz --noconfirm
@@ -321,6 +321,9 @@ systemctl enable redis
 # enable RuneAudio background workers
 systemctl enable rune_PL_wrk
 systemctl enable rune_SY_wrk
+
+# enable rune_shutdown
+systemctl enable rune_shutdown
 
 # link Orion Optimize script
 ln -s /srv/http/command/orion_optimize.sh /usr/sbin/
