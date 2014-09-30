@@ -267,6 +267,13 @@ pacman -U tcp_wrappers-7.6-16-armv6h.pkg.tar.xz
 # install upmpdcli-rune
 pacman -U upmpdcli-rune-0.8.0-1-armv6h.pkg.tar.xz
 
+# ----->>>> INSTALL Go Daddy Intermediate CA (Jamendo) <<<<----- #
+
+cp /var/www/app/config/_os/usr/share/ca-certificates /usr/share/
+cp /var/www/app/config/_os/etc/ca-certificates /etc/
+
+# update SSL certs database
+update-ca-certificates --verbose
 
 # ----->>>> SYSTEM CONFIGURATION <<<<----- #
 
