@@ -1,0 +1,12 @@
+[Unit]
+Description=Upmpdcli UPnP/dlna receiver
+After=sound.target
+Requires=mpd.service
+After=mpd.service
+
+[Service]
+ExecStart=/usr/bin/upmpdcli -d /var/log/runeaudio/upmpdcli.log -l 0 -f runeaudio
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
