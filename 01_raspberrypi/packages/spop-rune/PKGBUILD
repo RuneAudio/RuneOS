@@ -1,0 +1,25 @@
+# Spotify Client
+pkgname=spop-rune
+pkgver=1.0
+pkgrel=1
+pkgdesc="Spotify client daemon (RuneAudio)"
+url='https://github.com/Schnouki/spop'
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+license=('gplv3')
+groups=('daemons')
+depends=('glibc' 'libspotify' 'libao' 'libsoup' 'libnotify' 'dbus-glib' 'json-glib')
+provides=('spop')
+conflicts=('spop')
+source=(git://github.com/Schnouki/spop.git)
+sha1sums=('SKIP')
+
+build() {
+    cd "$srcdir"/spop
+    cmake -Wdev -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX="$pkgdir/usr"
+    make
+}
+
+package() {
+    cd "$srcdir"/spop
+    make PREFIX="$pkgdir/usr" install
+}
