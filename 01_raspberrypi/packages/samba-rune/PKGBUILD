@@ -31,8 +31,8 @@ build() {
 		--without-fhs \
 		--with-configdir=/etc/samba \
 		--with-logfilebase=/var/log \
-		--with-privatedir=/tmp \
-		--with-lockdir=/tmp \
+		--with-privatedir=/run/samba \
+		--with-lockdir=/run/samba \
 		--disable-debug \
 		--disable-cups \
 		--without-smbwrapper \
@@ -73,6 +73,7 @@ package() {
         make DESTDIR="${pkgdir}" install
         install -Dm644 ../../../smb-prod.conf "${pkgdir}"/etc/samba/smb-prod.conf
         install -Dm644 ../../../smb-dev.conf "${pkgdir}"/etc/samba/smb-dev.conf
+	install -Dm644 ../../../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/samba.conf
         #install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/samba.service
         #sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/user/samba.service
 }
