@@ -3,9 +3,9 @@
 
 pkgbase=php
 pkgname=php-rune
-pkgdesc="PHP-FPM 5.5.17 (RuneAudio)"
+pkgdesc="PHP-FPM 5.5.19 (RuneAudio)"
 packager="RuneAudio Team"
-pkgver=5.5.17
+pkgver=5.5.19
 pkgrel=1
 pkgdir=${startdir}/pkg/${pkgname}
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
@@ -13,8 +13,8 @@ license=('PHP')
 url='http://www.php.net'
 makedepends=('file' 'libmcrypt' 'libltdl' 'libpng' 'libjpeg' 'icu'
              'curl' 'bzip2' 'db' 'gmp' 'systemd')
-source=("http://www.php.net/distributions/${pkgbase}-${pkgver}.tar.gz"
-        "http://www.php.net/distributions/${pkgbase}-${pkgver}.tar.gz.asc"
+source=("http://it2.php.net/distributions/${pkgbase}-${pkgver}.tar.gz"
+        "http://it2.php.net/distributions/${pkgbase}-${pkgver}.tar.gz.asc"
         'logrotate.d.php-fpm' 'php-fpm.service' 'php-fpm.tmpfiles')
 
 sha1sums=('SKIP'

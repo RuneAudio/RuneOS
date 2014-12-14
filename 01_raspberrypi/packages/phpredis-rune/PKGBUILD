@@ -3,7 +3,7 @@
  
 pkgname=phpredis-rune
 pkgver=2.2.5
-pkgrel=1
+pkgrel=2
 pkgdesc="A PHP extension for Redis"
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
 url="https://github.com/nicolasff/phpredis"

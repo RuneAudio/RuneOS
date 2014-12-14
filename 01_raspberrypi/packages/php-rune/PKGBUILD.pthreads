@@ -3,9 +3,9 @@
 
 pkgbase=php
 pkgname=php-rune
-pkgdesc="PHP-FPM 5.5.17 [pthreads] (RuneAudio)"
+pkgdesc="PHP-FPM 5.5.19 [pthreads] (RuneAudio)"
 packager="RuneAudio Team"
-pkgver=5.5.17
+pkgver=5.5.19
 pkgrel=2
 pkgdir=${startdir}/pkg/${pkgname}
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
@@ -76,7 +76,6 @@ build() {
 		--with-pcre-regex=/usr \
 		--with-tsrm-pthreads \
 		--with-zlib \
-		--without-pic \
 		--with-readline \
 		--with-pear \
 		--with-fpm-user=http \
