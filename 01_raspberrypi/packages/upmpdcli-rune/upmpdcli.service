@@ -5,7 +5,7 @@ Requires=mpd.service
 After=mpd.service
 
 [Service]
-ExecStart=/usr/bin/upmpdcli -d /var/log/runeaudio/upmpdcli.log -l 0 -f runeaudio
+ExecStart=/usr/bin/upmpdcli -c /etc/upmpdcli.conf
 Restart=always
 
 [Install]

@@ -1,7 +1,7 @@
 # Spotify Client
 pkgname=spop-rune
-pkgver=0.0.1
-pkgrel=2
+pkgver=0.0.2
+pkgrel=1
 pkgdesc="Spotify client daemon (RuneAudio)"
 url='https://github.com/Schnouki/spop'
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')

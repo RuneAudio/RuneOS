@@ -3,7 +3,7 @@
 
 pkgname=samba-rune
 pkgver=2.2.12
-pkgrel=1
+pkgrel=2
 pkgdesc='RuneAudio lightweight Samba 2.2'
 url='http://www.samba.org/'
 license=('GPL')

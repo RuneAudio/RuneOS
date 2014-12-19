@@ -1,21 +1,21 @@
 # Contributor: Markus M. May <triplem@javafreedom.org>
 
 pkgname=upmpdcli-rune
-pkgver=0.8.1
+pkgver=0.9.1
 pkgrel=1
 pkgdesc="an UPnP front-end to the Music Player Daemon"
 license="GPL"
 depends=('libupnp')
 builddepends=(autoconf)
-arch=(armv6h)
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
 
 #source=("http://github.com/medoc92/upmpdcli/archive/v0.5.tar.gz")
 source=("https://github.com/medoc92/upmpdcli/archive/master.zip"
-	"upmpdcli-icon.patch"
+	"upmpdcli.service"
 	"upmpdcli.conf")
-sha1sums=('d81269ac96c8f5b10169f64346a6bb30c392df62'
-	  'd0dcbc114b552d50ef86b6dccb571d79fef69751'
-	  'bc985c80d556868d8c55441a18d475a91d04f2da')
+sha1sums=('SKIP'
+	  '9120b31b7db962b783b09248deed031ea172c2af'
+	  '8ae35924a0fd4de7424eb9a94560331bd4de47b9')
 
 backup=()
 url="http://www.lesbonscomptes.com/upmpdcli/"
@@ -35,9 +35,6 @@ build() {
   msg "Run configure"
   ./configure --prefix=/usr --sysconfdir=/etc
   
-  #apply Icon patch
-  git apply --stat ../../upmpdcli-icon.patch
-
   msg "Run make"
   make
 }

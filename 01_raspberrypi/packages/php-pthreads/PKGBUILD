@@ -1,0 +1,36 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+# Development: https://github.com/krakjoe/pthreads
+ 
+pkgname=php-pthreads
+pkgver=2.0.11
+pkgrel=1
+pkgdesc="Object Orientated API that allows user-land multi-threading in PHP"
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url="https://github.com/krakjoe/pthreads"
+license=('PHP')
+depends=('php-rune')
+_ininame="pthreads.ini"
+_inifile="etc/php/conf.d/$_ininame"
+backup=("$_inifile")
+_filename="redis-$pkgver.tgz"
+source=(git://github.com/krakjoe/pthreads.git)
+md5sums=('SKIP')
+_builddir=pthreads
+ 
+build() {
+    cd $_builddir
+ 
+    phpize
+    ./configure --prefix=/usr --enable-pthreads
+    make
+    #make test
+}
+ 
+package() {
+    cd $_builddir
+ 
+    make INSTALL_ROOT="$pkgdir" install
+    echo ";extension=pthreads.so" > "$_ininame"
+    install -vDm644 "$_ininame" "$pkgdir/$_inifile"
+}
+
