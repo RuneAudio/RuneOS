@@ -2,13 +2,13 @@
 # Maintainer: Simone De Gregori <orion@runeaudio.com>
 
 pkgname=mpd-rune
-pkgver=0.19.6
+pkgver=0.19.9
 pkgrel=1
 pkgdesc='RuneAudio MPD optimized version'
 url='http://www.musicpd.org/'
 license=('GPL')
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
-depends=('audiofile' 'mpg123' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs' 'libsoxr' 'ffmpeg-rune')
+depends=('audiofile' 'mpg123' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs' 'libsoxr' 'ffmpeg-rune' 'yajl')
 makedepends=('boost')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
@@ -16,11 +16,12 @@ replaces=('mpd')
 source=("http://www.musicpd.org/download/mpd/${pkgver%.*}/mpd-${pkgver}.tar.xz"
         'tmpfiles.d'
         'mpd.conf')
-sha1sums=('723c224a24292d70823a3f58fc7dbf20cac770e9'
+sha1sums=('6683bee5f132eda318c5a61ec14b2df8d9164d60'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           'e75a826590a38e3a18ba6b755a005eb63e650b4c')
 backup=('etc/mpd.conf')
 #install=install
+CXXFLAGS="-fpermissive -O2"
 
 build() {
 	cd "${srcdir}/mpd-${pkgver}"
@@ -32,7 +33,7 @@ build() {
 		--disable-shout \
 		--disable-sidplay \
 		--disable-modplug \
-		--disable-soundcloud \
+		--enable-soundcloud \
 		--disable-wavpack \
 		--disable-opus \
 		--disable-lame-encoder \
