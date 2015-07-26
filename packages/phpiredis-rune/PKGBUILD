@@ -1,0 +1,33 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+# Development: https://github.com/nrk/phpiredis
+ 
+pkgname=phpiredis-rune
+pkgver=1.0.0
+pkgrel=3
+pkgdesc="PHP low level extension for Redis"
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url="https://github.com/nrk/phpiredis"
+license=('PHP')
+depends=('php-rune' 'hiredis')
+ininame="phpiredis.ini"
+inifile="etc/php/conf.d/${ininame}"
+source=(git://github.com/nrk/phpiredis.git)
+md5sums=('SKIP')
+${builddir}=phpiredis
+ 
+build() {
+    cd ${builddir}
+ 
+    phpize
+    ./configure --prefix=/usr --enable-phpiredis
+    make
+    #make test
+}
+ 
+package() {
+    cd ${builddir}
+ 
+    make INSTALL_ROOT="${pkgdir}" install
+    echo "extension=phpiredis.so" > "${ininame}"
+    install -vDm644 "${ininame}" "$pkgdir/${inifile}"
+}

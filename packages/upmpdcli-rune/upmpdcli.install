@@ -1,0 +1,10 @@
+post_install() {
+	getent group upmpdcli &>/dev/null || groupadd -r upmpdcli >/dev/null
+	getent passwd upmpdcli &>/dev/null || useradd upmpdcli -g upmpdcli -s /bin/false >/dev/null
+}
+
+post_remove() {
+	getent passwd upmpdcli &>/dev/null && userdel upmpdcli >/dev/null
+	getent group upmpdcli &>/dev/null && groupdel upmpdcli >/dev/null
+	true
+}

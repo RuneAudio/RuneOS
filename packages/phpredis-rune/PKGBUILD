@@ -1,0 +1,34 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+# Development: https://github.com/nicolasff/phpredis
+ 
+pkgname=phpredis-rune
+pkgver=2.2.7
+pkgrel=2
+pkgdesc="A PHP extension for Redis"
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url="https://github.com/nicolasff/phpredis"
+license=('PHP')
+depends=('php-rune')
+ininame="redis.ini"
+inifile="etc/php/conf.d/${ininame}"
+source=(git://github.com/nicolasff/phpredis.git)
+md5sums=('SKIP')
+builddir=phpredis
+ 
+build() {
+    cd ${builddir}
+ 
+    phpize
+    ./configure --prefix=/usr --enable-redis
+    make
+    #make test
+}
+ 
+package() {
+    cd ${builddir}
+ 
+    make INSTALL_ROOT="$pkgdir" install
+    echo "extension=redis.so" > "${ininame}"
+    install -vDm644 "${ininame}" "$pkgdir/${inifile}"
+}
+

@@ -1,0 +1,79 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+
+pkgname=mpd-rune
+pkgver=0.19.10
+pkgrel=1
+pkgdesc='RuneAudio MPD optimized version (native DSD support)'
+url='http://www.musicpd.org/'
+license=('GPL')
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+depends=('audiofile' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs' 'libsoxr' 'ffmpeg-rune' 'yajl')
+makedepends=('boost')
+provides=("mpd=$pkgver")
+conflicts=('mpd')
+replaces=('mpd')
+source=("http://www.musicpd.org/download/mpd/0.19/mpd-${pkgver}.tar.xz"
+        'https://raw.githubusercontent.com/lintweaker/mpd-dsd-019/master/0001-Add-native-DSD-support-to-MPD-0.19.10.patch'
+        'tmpfiles.d'
+        'mpd.conf')
+sha1sums=('4635b33223d3f1e67eed41f6350ef75515153213'
+          'e6023f23ce0c94e97abc26b3795f6c93427c62e0'
+          'f4d5922abb69abb739542d8e93f4dfd748acdad7'
+          '60cc13bf154a81664661aeae22e11fdb97e4e5e1')
+#install=install
+CXXFLAGS="-fpermissive -O2"
+
+prepare() {
+    cd "${srcdir}/mpd-${pkgver}"
+    touch systemd/mpd.socket
+    autoreconf -fi
+}
+
+build() {
+	cd "${srcdir}/mpd-${pkgver}"
+	
+	# apply native-dsd patch
+	patch -p1 < ${startdir}/0001-Add-native-DSD-support-to-MPD-0.19.10.patch
+	
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-ao \
+		--disable-pulse \
+		--disable-shout \
+		--disable-sidplay \
+		--disable-modplug \
+		--enable-soundcloud \
+		--disable-wavpack \
+		--disable-opus \
+		--disable-lame-encoder \
+		--disable-ipv6 \
+		--disable-recorder-output \
+		--disable-iso9660 \
+		--disable-zzip \
+		--disable-wildmidi \
+		--disable-oss \
+		--disable-fluidsynth \
+		--disable-bzip2 \
+		--disable-gme \
+		--disable-mpg123 \
+		--enable-mad=yes \
+		--enable-libmpdclient \
+		--enable-soxr \
+		--enable-ffmpeg \
+		--enable-jack \
+		--with-zeroconf=avahi \
+		--with-systemdsystemunitdir=/usr/lib/systemd/system
+	make
+}
+
+package() {
+	cd "${srcdir}/mpd-${pkgver}"
+	make DESTDIR="${pkgdir}" install
+	install -Dm644 ../mpd.conf "${pkgdir}"/etc/mpd.conf
+	install -Dm644 ../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
+	install -d -g 45 -o 45 "${pkgdir}"/var/lib/mpd/playlists
+
+	install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service
+	sed '/WantedBy=/c WantedBy=default.target' -i "${pkgdir}"/usr/lib/systemd/user/mpd.service
+}

@@ -1,0 +1,20 @@
+--- player.c	2014-07-26 08:41:32.282686000 -0600
++++ player.c.rune	2014-07-26 08:53:53.962686000 -0600
+@@ -502,6 +502,10 @@
+ }
+ 
+ int player_play(stream_cfg *stream) {
++    /* RuneAudio hack */
++    command_start();
++    usleep(100000);
++    /* RuneAudio hack */
+     if (config.buffer_start_fill > BUFFER_FRAMES)
+         die("specified buffer starting fill %d > buffer size %d",
+             config.buffer_start_fill, BUFFER_FRAMES);
+@@ -516,7 +520,6 @@
+ #endif
+ 
+     please_stop = 0;
+-    command_start();
+     config.output->start(sampling_rate);
+     pthread_create(&player_thread, NULL, player_thread_func, NULL);

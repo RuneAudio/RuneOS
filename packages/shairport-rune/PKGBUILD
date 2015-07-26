@@ -1,0 +1,31 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+
+pkgname=shairport-rune
+pkgver=1.1.1
+pkgrel=1
+pkgdesc="AirPlay-compatible audio receiver (RuneAudio)"
+url='http://github.com/abrasive/shairport'
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+license=('public-domain')
+groups=('daemons')
+depends=('glibc' 'pkgconfig' 'libao' 'openssl')
+provides=('shairport-rune')
+conflicts=('shairport')
+source=(git://github.com/abrasive/shairport.git 
+	'shairport.service'
+	'player.c.runeaudio.patch')
+sha1sums=('SKIP'
+	'e7ad3cd856e3f9ccf6a55f258c95c39345c5e05d'
+	'2eff9768be2f763b4ec7c877558fd64bd40523d9')
+build() {
+    cd "${srcdir}"/shairport
+    patch -p0 < "${startdir}"/player.c.runeaudio.patch
+    make
+}
+
+package() {
+    cd "${srcdir}"/shairport
+    make PREFIX="${pkgdir}/usr" install
+    install -m 755 -d "${pkgdir}"/usr/lib/systemd/system
+    install -m 644 "${startdir}"/shairport.service "${pkgdir}"/usr/lib/systemd/system/shairport.service
+}

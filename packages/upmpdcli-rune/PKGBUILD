@@ -1,0 +1,36 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+
+pkgname=upmpdcli-rune
+_pkgname=upmpdcli
+pkgver=0.11
+pkgrel=1
+pkgdesc="an UPnP front-end to the Music Player Daemon"
+url="http://www.lesbonscomptes.com/upmpdcli/"
+license="GPL"
+depends=('libupnpp-rune')
+builddepends=('autoconf')
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+source=("git://github.com/medoc92/upmpdcli.git"
+        "upmpdcli.conf"
+        "runeaudio.png")
+sha1sums=('SKIP'
+          '8ae35924a0fd4de7424eb9a94560331bd4de47b9'
+          '8cecfbf17d56aa342c9b0111fdae866713f7e067')
+install=upmpdcli.install
+build() {
+
+  cd ${srcdir}/${_pkgname}
+  ./autogen.sh
+  ./configure --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd ${srcdir}/${_pkgname}
+  make DESTDIR="${pkgdir}/" install
+  mkdir -p ${pkgdir}/etc/
+  cp ${startdir}/upmpdcli.conf ${pkgdir}/etc/
+  cp ${startdir}/runeaudio.png ${pkgdir}/usr/share/upmpdcli/
+  install -Dm644  ${startdir}/upmpdcli.service ${pkgdir}/usr/lib/systemd/system/upmpdcli.service
+}
+

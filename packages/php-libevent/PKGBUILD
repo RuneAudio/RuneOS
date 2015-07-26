@@ -1,0 +1,35 @@
+# Maintainer: Simone De Gregori <simone@sistema.fm>
+# Development: http://pecl.php.net/package/libevent
+ 
+pkgname=php-libevent
+pkgver=0.1.0
+pkgrel=2
+pkgdesc="This extension is a wrapper for libevent - event notification library."
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+url="http://pecl.php.net/package/libevent"
+license=('PHP')
+depends=('php-rune')
+_ininame="libevent.ini"
+_inifile="etc/php/conf.d/$_ininame"
+backup=("$_inifile")
+_filename="libevent-$pkgver.tgz"
+source=(http://pecl.php.net/get/$_filename)
+md5sums=('SKIP')
+_builddir=libevent-$pkgver
+ 
+build() {
+    cd $_builddir
+ 
+    phpize
+    ./configure --prefix=/usr
+    make
+    #make test
+}
+ 
+package() {
+    cd $_builddir
+ 
+    make INSTALL_ROOT="$pkgdir" install
+    install -vDm644 "${startdir}/$_ininame" "$pkgdir/$_inifile"
+}
+

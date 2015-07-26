@@ -1,0 +1,29 @@
+# Maintainer: Simone De Gregori <orion@runeaudio.com>
+# Based on libupnpp-git from AUR
+
+pkgname=libupnpp-rune
+_pkgname=libupnpp
+pkgver=20150719
+pkgrel=1
+pkgdesc="a C++ wrapper for libupnp - used with upmpdcli or upplay"
+url="https://github.com/medoc92/libupnpp"
+license="GPL"
+depends=('libupnp')
+makedepends=('git' 'autoconf')
+arch=('i686' 'x86_64' 'armv6h' 'armv7h')
+
+source=("git://github.com/medoc92/libupnpp.git")
+md5sums=('SKIP')
+
+build() {
+
+  cd ${srcdir}/${_pkgname}
+  ./autogen.sh
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd ${srcdir}/${_pkgname}
+  make DESTDIR="${pkgdir}/" install
+}
