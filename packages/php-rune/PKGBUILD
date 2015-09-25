@@ -2,16 +2,16 @@
 
 pkgbase=php
 pkgname=php-rune
-pkgdesc="PHP-FPM 5.5.27 [pthreads] (RuneAudio)"
+pkgdesc="PHP-FPM 5.5.29 [pthreads] (RuneAudio)"
 packager="RuneAudio Team"
-pkgver=5.5.27
+pkgver=5.5.29
 pkgrel=1
 pkgdir=${startdir}/pkg/${pkgname}
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
 license=('PHP')
 url='http://www.php.net'
 makedepends=('file' 'libmcrypt' 'libltdl' 'libpng' 'libjpeg' 'icu'
-             'curl' 'bzip2' 'db' 'gmp' 'systemd' 're2c')
+             'curl' 'bzip2' 'db' 'gmp' 'systemd' 're2c' 'libxml2')
 source=("http://www.php.net/distributions/${pkgbase}-${pkgver}.tar.gz"
         'logrotate.d.php-fpm' 'php-fpm.service' 'php-fpm.tmpfiles')
 
@@ -95,11 +95,11 @@ build() {
 }
 
 check() {
- 	cd ${srcdir}/build-fpm
- 	export SNMP_TIMEOUT=1
- 	export SNMP_RETRIES=0
- 	printf "n\n" | make test
- 	echo
+	cd ${srcdir}/build-fpm
+	export SNMP_TIMEOUT=1
+	export SNMP_RETRIES=0
+	printf "n\n" | make test
+	echo
 }
 
 package() {

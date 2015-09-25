@@ -2,7 +2,7 @@
 
 pkgname=upmpdcli-rune
 _pkgname=upmpdcli
-pkgver=0.11
+pkgver=0.12
 pkgrel=1
 pkgdesc="an UPnP front-end to the Music Player Daemon"
 url="http://www.lesbonscomptes.com/upmpdcli/"

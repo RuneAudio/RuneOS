@@ -13,11 +13,9 @@ ininame="phpiredis.ini"
 inifile="etc/php/conf.d/${ininame}"
 source=(git://github.com/nrk/phpiredis.git)
 md5sums=('SKIP')
-${builddir}=phpiredis
  
 build() {
-    cd ${builddir}
- 
+    cd ${srcdir}/phpiredis
     phpize
     ./configure --prefix=/usr --enable-phpiredis
     make
@@ -25,7 +23,7 @@ build() {
 }
  
 package() {
-    cd ${builddir}
+    cd ${srcdir}/phpiredis
  
     make INSTALL_ROOT="${pkgdir}" install
     echo "extension=phpiredis.so" > "${ininame}"

@@ -3,7 +3,7 @@
 
 pkgname=libupnpp-rune
 _pkgname=libupnpp
-pkgver=20150719
+pkgver=20150925
 pkgrel=1
 pkgdesc="a C++ wrapper for libupnp - used with upmpdcli or upplay"
 url="https://github.com/medoc92/libupnpp"

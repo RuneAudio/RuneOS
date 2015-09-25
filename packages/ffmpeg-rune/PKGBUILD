@@ -2,7 +2,7 @@
 # Based on original work of: DrZaius <lou[at]fakeoutdoorsman.com>
 
 pkgname=ffmpeg-rune
-pkgver=2.7
+pkgver=2.8
 pkgrel=1
 pkgdesc="Universal multimedia toolkit"
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
@@ -10,7 +10,7 @@ license=('GPL')
 url="http://ffmpeg.org/"
 license=('GPL')
 #depends=('alsa-lib' 'bzip2' 'freetype2' 'lame' 'libass' 'libfdk-aac-git' 'libtheora' 'libva' 'libvdpau' 'libvorbis' 'libvpx-git' 'opus' 'sdl' 'texi2html' 'x264-git' 'x265-hg' 'zlib')
-#makedepends=('git' 'yasm' 'libvdpau')
+makedepends=('git' 'yasm' 'libvdpau')
 conflicts=('ffmpeg')
 provides=("ffmpeg=$pkgver")
 #source=("$pkgname"::'git://source.ffmpeg.org/ffmpeg.git')

@@ -7,7 +7,7 @@ pkgdesc='RuneAudio MPD optimized version (native DSD support)'
 url='http://www.musicpd.org/'
 license=('GPL')
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
-depends=('audiofile' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs' 'libsoxr' 'ffmpeg-rune' 'yajl')
+depends=('audiofile' 'libmad' 'jack' 'curl' 'faad2' 'sqlite' 'libmms' 'libid3tag' 'libmpdclient' 'boost-libs' 'libsoxr' 'ffmpeg-rune' 'yajl')
 makedepends=('boost')
 provides=("mpd=$pkgver")
 conflicts=('mpd')
@@ -20,7 +20,7 @@ sha1sums=('4635b33223d3f1e67eed41f6350ef75515153213'
           'e6023f23ce0c94e97abc26b3795f6c93427c62e0'
           'f4d5922abb69abb739542d8e93f4dfd748acdad7'
           '60cc13bf154a81664661aeae22e11fdb97e4e5e1')
-#install=install
+install=install
 CXXFLAGS="-fpermissive -O2"
 
 prepare() {
@@ -70,8 +70,8 @@ build() {
 package() {
 	cd "${srcdir}/mpd-${pkgver}"
 	make DESTDIR="${pkgdir}" install
-	install -Dm644 ../mpd.conf "${pkgdir}"/etc/mpd.conf
-	install -Dm644 ../tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
+	install -Dm644 "${startdir}"/mpd.conf "${pkgdir}"/etc/mpd.conf
+	install -Dm644 "${startdir}"/tmpfiles.d "${pkgdir}"/usr/lib/tmpfiles.d/mpd.conf
 	install -d -g 45 -o 45 "${pkgdir}"/var/lib/mpd/playlists
 
 	install -Dm644 "${pkgdir}"/usr/lib/systemd/{system,user}/mpd.service

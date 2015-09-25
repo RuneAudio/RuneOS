@@ -13,7 +13,7 @@ _ininame="pthreads.ini"
 _inifile="etc/php/conf.d/$_ininame"
 backup=("$_inifile")
 _filename="redis-$pkgver.tgz"
-source=(git://github.com/krakjoe/pthreads.git)
+source=(git://github.com/krakjoe/pthreads.git#branch=master)
 md5sums=('SKIP')
 _builddir=pthreads
  
