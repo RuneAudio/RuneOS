@@ -3,8 +3,9 @@ Description=RuneAudio Playback Worker
 After=network.target
 
 [Service]
+ExecStartPre=-/bin/sleep 15
 ExecStart=/var/www/command/rune_PL_wrk
-TimeoutSec=0
+TimeoutSec=70
 Restart=always
 
 [Install]
